@@ -60,3 +60,30 @@ btnApi.addEventListener('click', () => {
         .catch(error => console.error(error));
 });
 
+const inputEl = document.querySelector('#input-el');
+const shortBtn = document.querySelector('#short-btn');
+const resultEl = document.querySelector('#result-el')
+
+shortBtn.addEventListener('click', () => {
+    const userUrl = inputEl.value;
+    const apiUrl = `https://free-url-un-shortener.p.rapidapi.com/url?url=${encodeURIComponent(userUrl)}`;
+    fetch(apiUrl, {
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': 'f3cdceacf6msh71c0e4cff5be441p15ed62jsnf06564818a72'
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                resultEl.textContent = data.shortenedUrl;
+            } else {
+                resultEl.textContent = 'Error al acortar la URL.';
+            }
+        })
+        .catch(error => {
+            resultEl.textContent = 'Error de conexión.';
+            console.error(error);
+        });
+})
+
